@@ -3,6 +3,8 @@
 import { Button, Frog, TextInput } from 'frog'
 import { handle } from 'frog/next'
 import FLockLogo from '@/public/FLockLogo.svg'
+import chatFlock from '@/app/utils/flock-api'
+import { error } from 'console'
 
 const app = new Frog({
   assetsPath: '/',
@@ -83,6 +85,8 @@ app.frame('/', (c) => {
 app.frame('/chat', (c) => {
   const { buttonValue, inputText, status } = c
   const fruit = inputText || buttonValue
+
+
   return c.res({
     action: '/chat',
     image: (
@@ -142,7 +146,9 @@ app.frame('/chat', (c) => {
     ),
     intents: [
       <TextInput placeholder="Enter your question..." />,
-      <Button action='/submit' value="Send"> Send </Button>,
+      <Button action='/submit' value="cls3bm1yf00017drv1rv2p137"> BTCBot </Button>,
+      <Button action='/submit' value="cls4frht2000njy824nn3c7g5"> ETHBot </Button>,
+      <Button action='/submit' value="cls4fv9ev0019jy82egcigw4a"> ScrollBot </Button>,
       <Button action='/' value="Go Back"> Go Back </Button>,
     ],
   })
@@ -151,7 +157,24 @@ app.frame('/chat', (c) => {
 
 app.frame('/submit', (c) => {
   const { buttonValue, inputText, status } = c
-  const fruit = inputText
+  const inputValue = inputText
+  const button = buttonValue
+
+  const response = async () => {
+    if (!inputText || !button) return "Input Text is null"
+
+    let chatResult
+
+    try {
+      chatResult = await chatFlock(inputText, button)
+    } catch (error) {
+      chatResult = error
+    }
+
+
+
+    return chatResult.result
+  }
 
   return c.res({
     image: (
@@ -192,12 +215,44 @@ app.frame('/submit', (c) => {
           }}
         >
           {status === 'response'
-            && `${fruit}`}
+            && `This is the answer for your question:`}
+        </div>
+        <div
+          style={{
+            color: 'white',
+            fontSize: 48,
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.4,
+            marginTop: 30,
+            padding: '0 120px',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          {status === 'response'
+            && `${inputText}`}
+        </div>
+        <div
+          style={{
+            color: 'white',
+            fontSize: 48,
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.4,
+            marginTop: 30,
+            padding: '0 120px',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          {status === 'response'
+            && `${response}`}
         </div>
       </div>
     ),
     intents: [
       <Button action='/' value="Go Back"> Go Back </Button>,
+      <Button.Link href="https://flock.io">FLock</Button.Link>,
+      // <Button.Mint mint=""> Ask Another Question </Button.Mint>,
     ],
   })
 })
