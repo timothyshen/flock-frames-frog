@@ -52,7 +52,7 @@ app.frame('/', (c) => {
             fontStyle: 'normal',
             letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            marginTop: 30,
+            marginTop: 10,
             padding: '0 120px',
             whiteSpace: 'pre-wrap',
           }}
@@ -84,8 +84,6 @@ app.frame('/', (c) => {
 
 app.frame('/chat', (c) => {
   const { buttonValue, inputText, status } = c
-  const fruit = inputText || buttonValue
-
 
   return c.res({
     action: '/chat',
@@ -121,7 +119,7 @@ app.frame('/chat', (c) => {
             fontStyle: 'normal',
             letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            marginTop: 30,
+            marginTop: 10,
             padding: '0 120px',
             whiteSpace: 'pre-wrap',
           }}
@@ -155,26 +153,20 @@ app.frame('/chat', (c) => {
 })
 
 
-app.frame('/submit', (c) => {
+app.frame('/submit', async (c) => {
   const { buttonValue, inputText, status } = c
   const inputValue = inputText
   const button = buttonValue
-
-  const response = async () => {
-    if (!inputText || !button) return "Input Text is null"
-
-    let chatResult
-
-    try {
-      chatResult = await chatFlock(inputText, button)
-    } catch (error) {
-      chatResult = error
-    }
+  let chatResult
 
 
+  // try {
+  //   // @ts-ignore
+  //   chatResult = await chatFlock(inputValue, button)
+  // } catch (error) {
+  //   chatResult = error
+  // }
 
-    return chatResult.result
-  }
 
   return c.res({
     image: (
@@ -190,7 +182,6 @@ app.frame('/submit', (c) => {
           flexDirection: 'column',
           flexWrap: 'nowrap',
           height: '100%',
-          justifyContent: 'center',
           textAlign: 'center',
           width: '100%',
         }}
@@ -205,12 +196,9 @@ app.frame('/submit', (c) => {
         <div
           style={{
             color: 'white',
-            fontSize: 60,
+            fontSize: 30,
             fontStyle: 'normal',
             letterSpacing: '-0.025em',
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: '0 120px',
             whiteSpace: 'pre-wrap',
           }}
         >
@@ -223,9 +211,7 @@ app.frame('/submit', (c) => {
             fontSize: 48,
             fontStyle: 'normal',
             letterSpacing: '-0.025em',
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: '0 120px',
+            marginTop: 10,
             whiteSpace: 'pre-wrap',
           }}
         >
@@ -235,17 +221,17 @@ app.frame('/submit', (c) => {
         <div
           style={{
             color: 'white',
-            fontSize: 48,
+            fontSize: 24,
             fontStyle: 'normal',
             letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            marginTop: 30,
-            padding: '0 120px',
+            marginTop: 20,
+            width: '70%',
             whiteSpace: 'pre-wrap',
           }}
         >
           {status === 'response'
-            && `${response}`}
+            && `${chatResult?.answer}`}
         </div>
       </div>
     ),
