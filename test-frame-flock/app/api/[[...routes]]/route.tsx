@@ -138,7 +138,21 @@ app.frame('/chat', (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          Lets chat about Ecosystem!
+          - Choose the Ecosystem
+        </div>
+        <div
+          style={{
+            color: 'white',
+            fontSize: 48,
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.4,
+            marginTop: 30,
+            padding: '0 120px',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          - Ask your question
         </div>
       </div>
     ),
